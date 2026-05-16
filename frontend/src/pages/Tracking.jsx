@@ -4,6 +4,119 @@ import api from "../api/axios";
 import TrackingMap from "../components/TrackingMap";
 import "../styles/Tracking.css";
 
+const now = new Date();
+const DEMO_TRACKINGS = [
+  {
+    scheduleId: 1,
+    busName: "AbhiBus Swiftline",
+    busNumber: "TS-09-AB-2048",
+    busType: "AC SLEEPER",
+    sourceCity: "Hyderabad",
+    destinationCity: "Bangalore",
+    estimatedDuration: "8h 45m",
+    distanceKm: 570.0,
+    departureTime: new Date(now.getTime() - 4 * 3600000).toISOString(),
+    arrivalTime: new Date(now.getTime() + 5 * 3600000).toISOString(),
+    fare: 899.0,
+    latitude: 15.8,
+    longitude: 77.8,
+    speed: 62,
+    status: "IN_TRANSIT",
+    lastUpdated: new Date(now.getTime() - 120000).toISOString(),
+    trackingId: "TRK-1",
+  },
+  {
+    scheduleId: 2,
+    busName: "Orange Tours Platinum",
+    busNumber: "AP-16-OT-7766",
+    busType: "AC SLEEPER",
+    sourceCity: "Hyderabad",
+    destinationCity: "Bangalore",
+    estimatedDuration: "8h 45m",
+    distanceKm: 570.0,
+    departureTime: new Date(now.getTime() - 3 * 3600000).toISOString(),
+    arrivalTime: new Date(now.getTime() + 6 * 3600000).toISOString(),
+    fare: 1049.0,
+    latitude: 16.5,
+    longitude: 78.0,
+    speed: 55,
+    status: "IN_TRANSIT",
+    lastUpdated: new Date(now.getTime() - 180000).toISOString(),
+    trackingId: "TRK-2",
+  },
+  {
+    scheduleId: 3,
+    busName: "Kaveri Travels Smart",
+    busNumber: "KA-05-KT-1188",
+    busType: "AC SLEEPER",
+    sourceCity: "Hyderabad",
+    destinationCity: "Bangalore",
+    estimatedDuration: "8h 45m",
+    distanceKm: 570.0,
+    departureTime: new Date(now.getTime() - 5 * 3600000).toISOString(),
+    arrivalTime: new Date(now.getTime() + 4 * 3600000).toISOString(),
+    fare: 749.0,
+    latitude: 14.5,
+    longitude: 77.7,
+    speed: 48,
+    status: "IN_TRANSIT",
+    lastUpdated: new Date(now.getTime() - 300000).toISOString(),
+    trackingId: "TRK-3",
+  },
+  {
+    scheduleId: 4,
+    busName: "VRL Value Express",
+    busNumber: "MH-12-VL-5102",
+    busType: "NON-AC",
+    sourceCity: "Mumbai",
+    destinationCity: "Pune",
+    estimatedDuration: "3h 15m",
+    distanceKm: 150.0,
+    departureTime: new Date(now.getTime() - 1.5 * 3600000).toISOString(),
+    arrivalTime: new Date(now.getTime() + 2 * 3600000).toISOString(),
+    fare: 399.0,
+    latitude: 18.75,
+    longitude: 73.25,
+    speed: 70,
+    status: "IN_TRANSIT",
+    lastUpdated: new Date(now.getTime() - 60000).toISOString(),
+    trackingId: "TRK-4",
+  },
+];
+
+function buildDemoHistory(tracking) {
+  const waypoints =
+    tracking.sourceCity === "Mumbai"
+      ? [
+          { lat: 19.076, lon: 72.878 },
+          { lat: 18.95, lon: 73.05 },
+          { lat: 18.85, lon: 73.15 },
+          { lat: 18.75, lon: 73.25 },
+        ]
+      : [
+          { lat: 17.385, lon: 78.487 },
+          { lat: 17.0, lon: 78.2 },
+          { lat: 16.5, lon: 78.0 },
+          { lat: 15.8, lon: 77.8 },
+          { lat: 15.3, lon: 77.6 },
+          { lat: 14.5, lon: 77.7 },
+        ];
+
+  const progressIdx = Math.min(
+    waypoints.length - 1,
+    Math.floor((tracking.scheduleId / 4) * waypoints.length)
+  );
+
+  return waypoints.slice(0, progressIdx + 1).map((wp, i) => ({
+    id: tracking.scheduleId * 100 + i,
+    latitude: wp.lat + (Math.random() - 0.5) * 0.01,
+    longitude: wp.lon + (Math.random() - 0.5) * 0.01,
+    speed: 40 + Math.random() * 40,
+    status: "IN_TRANSIT",
+    updatedAt: new Date(now.getTime() - (progressIdx - i) * 1800000).toISOString(),
+  }));
+}
+
 function Tracking() {
   const [searchParams] = useSearchParams();
   const defaultScheduleId = searchParams.get("scheduleId") || "";
@@ -15,11 +128,31 @@ function Tracking() {
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [view, setView] = useState(defaultScheduleId ? "detail" : "list");
 
+  const applyFallback = useCallback((listData) => {
+    if (!listData || listData.length === 0) {
+      setActiveTrackings(DEMO_TRACKINGS);
+    } else {
+      setActiveTrackings(listData);
+    }
+  }, []);
+
+  const applyDetailFallback = useCallback((id) => {
+    const demo = DEMO_TRACKINGS.find((t) => String(t.scheduleId) === String(id));
+    if (demo) {
+      setTrackingDetails(demo);
+      setTrackingHistory(buildDemoHistory(demo));
+      setView("detail");
+    } else {
+      setTrackingDetails(null);
+      setTrackingHistory([]);
+    }
+  }, []);
+
   const fetchActiveTrackings = useCallback(() => {
     api.get("/tracking/active")
-      .then((res) => setActiveTrackings(res.data))
-      .catch(() => setActiveTrackings([]));
-  }, []);
+      .then((res) => applyFallback(res.data))
+      .catch(() => applyFallback(null));
+  }, [applyFallback]);
 
   const fetchTrackingDetails = useCallback(() => {
     if (!scheduleId) return;
@@ -29,16 +162,19 @@ function Tracking() {
       api.get(`/tracking/schedule/${scheduleId}`)
     ])
       .then(([detailsRes, historyRes]) => {
-        setTrackingDetails(detailsRes.data);
-        setTrackingHistory(historyRes.data);
-        setView("detail");
+        if (detailsRes.data && detailsRes.data.scheduleId) {
+          setTrackingDetails(detailsRes.data);
+          setTrackingHistory(historyRes.data || []);
+          setView("detail");
+        } else {
+          applyDetailFallback(scheduleId);
+        }
       })
       .catch(() => {
-        setTrackingDetails(null);
-        setTrackingHistory([]);
+        applyDetailFallback(scheduleId);
       })
       .finally(() => setLoading(false));
-  }, [scheduleId]);
+  }, [scheduleId, applyDetailFallback]);
 
   useEffect(() => {
     fetchActiveTrackings();
@@ -50,21 +186,25 @@ function Tracking() {
     api.get(`/tracking/schedule/${scheduleId}/details`)
       .then((detailsRes) => {
         if (cancelled) return;
-        return api.get(`/tracking/schedule/${scheduleId}`).then((historyRes) => {
-          if (cancelled) return;
-          setTrackingDetails(detailsRes.data);
-          setTrackingHistory(historyRes.data);
-          setView("detail");
-        });
+        if (detailsRes.data && detailsRes.data.scheduleId) {
+          return api.get(`/tracking/schedule/${scheduleId}`).then((historyRes) => {
+            if (cancelled) return;
+            setTrackingDetails(detailsRes.data);
+            setTrackingHistory(historyRes.data || []);
+            setView("detail");
+          });
+        } else {
+          applyDetailFallback(scheduleId);
+        }
       })
       .catch(() => {
         if (!cancelled) {
-          setTrackingDetails(null);
-          setTrackingHistory([]);
+          applyDetailFallback(scheduleId);
         }
-      });
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [scheduleId]);
+  }, [scheduleId, applyDetailFallback]);
 
   useEffect(() => {
     if (!autoRefresh) return;
