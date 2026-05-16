@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import "../styles/Bookings.css";
 
 function Bookings() {
+  const navigate = useNavigate();
   const [backendBookings, setBackendBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,6 +24,7 @@ function Bookings() {
     const formattedBackendBookings = backendBookings.map((booking) => ({
       id: `BK-${booking.id}`,
       transactionId: `BK-${booking.id}`,
+      scheduleId: booking.schedule?.id,
       busName: booking.schedule?.bus?.busName || "TravelGo Bus",
       busNumber: booking.schedule?.bus?.busNumber || "Confirmed operator",
       route: booking.schedule?.route
@@ -123,6 +126,14 @@ function Bookings() {
                   <strong>{String(booking.paymentMethod || "Online").replace(/_/g, " ")}</strong>
                 </div>
               </div>
+              {booking.scheduleId && (
+                <button
+                  className="track-bus-btn"
+                  onClick={() => navigate(`/tracking?scheduleId=${booking.scheduleId}`)}
+                >
+                  Track Bus
+                </button>
+              )}
             </article>
           ))}
         </section>

@@ -133,26 +133,57 @@ public class DataInitializer {
             // Initialize sample live tracking points if none exist
             if (liveTrackingRepository.count() == 0) {
                 java.util.List<Schedule> schedulesAll = scheduleRepository.findAll();
-                double[][] coords = new double[][]{
-                        {17.385044, 78.486671}, // Hyderabad
-                        {12.971599, 77.594563}, // Bangalore
-                        {19.075983, 72.877655}, // Mumbai
-                        {28.704060, 77.102493}  // Delhi
+
+                // Route waypoints: Hyderabad->Bangalore, Mumbai->Pune
+                double[][][] routeWaypoints = new double[][][] {
+                    // Hyderabad to Bangalore (3 schedules use this route)
+                    {
+                        {17.385044, 78.486671},  // Hyderabad
+                        {17.0, 78.2},            // Near Hyderabad
+                        {16.5, 78.0},            // Kurnool area
+                        {15.8, 77.8},            // Anantapur area
+                        {15.3, 77.6},            // Bellary area
+                        {14.5, 77.7},            // Davangere area
+                        {13.8, 77.6},            // Tumkur area
+                        {12.971599, 77.594563}   // Bangalore
+                    },
+                    // Mumbai to Pune
+                    {
+                        {19.075983, 72.877655},  // Mumbai
+                        {18.95, 73.05},          // Navi Mumbai
+                        {18.85, 73.15},          // Panvel area
+                        {18.75, 73.25},          // Lonavala area
+                        {18.65, 73.45},          // Khandala area
+                        {18.55, 73.65},          // Near Pune
+                        {18.52, 73.85}           // Pune
+                    }
                 };
-                int idx = 0;
+
                 for (Schedule sch : schedulesAll) {
-                    LiveTracking lt = new LiveTracking();
-                    lt.setSchedule(sch);
-                    double[] base = coords[idx % coords.length];
-                    double lat = base[0] + (Math.random() - 0.5) * 0.05;
-                    double lon = base[1] + (Math.random() - 0.5) * 0.05;
-                    lt.setLatitude(lat);
-                    lt.setLongitude(lon);
-                    lt.setSpeed(40.0 + Math.random() * 20.0);
-                    lt.setStatus("IN_TRANSIT");
-                    lt.setUpdatedAt(LocalDateTime.now().minusMinutes(idx * 3));
-                    liveTrackingRepository.save(lt);
-                    idx++;
+                    // Pick route waypoints based on the schedule's route
+                    double[][] waypoints;
+                    String src = sch.getRoute() != null ? sch.getRoute().getSourceCity() : "";
+                    if ("Mumbai".equalsIgnoreCase(src)) {
+                        waypoints = routeWaypoints[1];
+                    } else {
+                        waypoints = routeWaypoints[0];
+                    }
+
+                    // Simulate bus at a random progress along the route
+                    int progressIndex = (int) (Math.random() * (waypoints.length - 1));
+                    // Create multiple historical tracking points up to the current position
+                    for (int i = 0; i <= progressIndex; i++) {
+                        LiveTracking lt = new LiveTracking();
+                        lt.setSchedule(sch);
+                        double lat = waypoints[i][0] + (Math.random() - 0.5) * 0.01;
+                        double lon = waypoints[i][1] + (Math.random() - 0.5) * 0.01;
+                        lt.setLatitude(lat);
+                        lt.setLongitude(lon);
+                        lt.setSpeed(40.0 + Math.random() * 40.0);
+                        lt.setStatus(i == progressIndex ? "IN_TRANSIT" : "IN_TRANSIT");
+                        lt.setUpdatedAt(LocalDateTime.now().minusMinutes((long)(progressIndex - i) * 30));
+                        liveTrackingRepository.save(lt);
+                    }
                 }
             }
         };

@@ -139,6 +139,23 @@
   color: #18202f;
 }
 
+.track-bus-btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px;
+  background: #1a1a2e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.track-bus-btn:hover {
+  background: #e53935;
+}
+
 @media (max-width: 760px) {
   .bookings-header,
   .booking-card-top,
