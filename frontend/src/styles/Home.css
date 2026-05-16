@@ -1,0 +1,269 @@
+.home-page {
+  background: #f6f7fb;
+  color: #252b36;
+}
+
+.home-hero {
+  min-height: 560px;
+  background-image: url("https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1800&auto=format&fit=crop");
+  background-position: center;
+  background-size: cover;
+}
+
+.hero-shade {
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(17, 24, 39, 0.88), rgba(17, 24, 39, 0.38));
+}
+
+.hero-content {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  color: #fff;
+}
+
+.hero-kicker {
+  margin: 0 0 12px;
+  color: #ffd7d9;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.hero-content h1 {
+  max-width: 780px;
+  margin: 0;
+  font-size: 48px;
+  line-height: 1.08;
+}
+
+.hero-copy {
+  max-width: 680px;
+  margin: 18px 0 30px;
+  color: #f5f7fb;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.search-panel {
+  display: grid;
+  grid-template-columns: 1fr 46px 1fr 190px 180px;
+  gap: 10px;
+  max-width: 1080px;
+  padding: 14px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.28);
+}
+
+.search-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #647084;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.search-panel input,
+.search-panel select {
+  min-height: 42px;
+  border: 1px solid #d8dde8;
+  border-radius: 6px;
+  color: #18202f;
+  font-size: 16px;
+  background: #fff;
+}
+
+.swap-button {
+  align-self: end;
+  height: 44px;
+  border: 1px solid #ead0d2;
+  border-radius: 50%;
+  background: #fff3f4;
+  color: #d84e55;
+  font-size: 20px;
+}
+
+.search-button {
+  align-self: end;
+  min-height: 44px;
+  border: 0;
+  border-radius: 6px;
+  background: #d84e55;
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.hero-stats span {
+  color: #eef2f7;
+}
+
+.hero-stats strong {
+  display: block;
+  color: #fff;
+  font-size: 22px;
+}
+
+.offers-section,
+.routes-section,
+.trust-section {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 54px 0 0;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 18px;
+}
+
+.section-heading h2,
+.trust-section h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.section-heading p,
+.trust-section p {
+  margin: 0;
+  color: #667085;
+}
+
+.offer-grid,
+.route-grid,
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.offer-card,
+.route-card,
+.trust-grid div {
+  border: 1px solid #e4e8f0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.offer-card {
+  padding: 22px;
+  border-left: 4px solid #d84e55;
+}
+
+.offer-card p {
+  margin: 0 0 10px;
+  color: #667085;
+}
+
+.offer-card strong {
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 7px 10px;
+  border: 1px dashed #d84e55;
+  border-radius: 6px;
+  color: #d84e55;
+}
+
+.offer-card span {
+  display: block;
+  color: #333b4d;
+}
+
+.route-card {
+  padding: 20px;
+  text-align: left;
+  color: #252b36;
+  border: 1px solid #e4e8f0;
+}
+
+.route-card span,
+.route-card strong,
+.route-card small {
+  display: block;
+}
+
+.route-card span {
+  font-weight: 800;
+}
+
+.route-card strong {
+  margin: 10px 0 6px;
+  color: #d84e55;
+}
+
+.route-card small {
+  color: #667085;
+}
+
+.trust-section {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 28px;
+  padding-bottom: 60px;
+}
+
+.trust-grid div {
+  padding: 20px;
+}
+
+.trust-grid strong,
+.trust-grid span {
+  display: block;
+}
+
+.trust-grid strong {
+  margin-bottom: 8px;
+}
+
+.trust-grid span {
+  color: #667085;
+}
+
+@media (max-width: 920px) {
+  .search-panel,
+  .trust-section,
+  .offer-grid,
+  .route-grid,
+  .trust-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .swap-button {
+    border-radius: 6px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-content h1 {
+    font-size: 34px;
+  }
+
+  .hero-copy {
+    font-size: 16px;
+  }
+
+  .home-hero,
+  .hero-shade {
+    min-height: 680px;
+  }
+}

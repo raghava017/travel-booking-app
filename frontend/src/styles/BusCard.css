@@ -1,0 +1,277 @@
+.bus-card {
+  background: #fff;
+  border: 1px solid #e5e9f2;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.bus-card:hover {
+  border-color: #f0b4b8;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+}
+
+.bus-main {
+  display: grid;
+  grid-template-columns: 1.15fr 1.45fr 190px;
+  gap: 20px;
+  align-items: center;
+  padding: 22px;
+}
+
+.operator-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.operator-row h3 {
+  margin: 0 0 6px;
+  color: #18202f;
+  font-size: 19px;
+}
+
+.operator-row p {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+.bus-type {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: #eef7ff;
+  color: #0f6fb6;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.rating-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 18px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.rating-pill {
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: #1f8f55;
+  color: #fff;
+  font-weight: 800;
+}
+
+.punctuality {
+  color: #0f6fb6;
+  font-weight: 700;
+}
+
+.timeline-block {
+  display: grid;
+  grid-template-columns: 115px 1fr 115px;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-point strong,
+.route-point span {
+  display: block;
+}
+
+.route-point strong {
+  color: #111827;
+  font-size: 22px;
+}
+
+.route-point span {
+  margin-top: 5px;
+  color: #667085;
+  font-size: 14px;
+}
+
+.route-point.right {
+  text-align: right;
+}
+
+.duration-line {
+  position: relative;
+  text-align: center;
+  color: #667085;
+  font-size: 13px;
+}
+
+.duration-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #d9dee8;
+}
+
+.duration-line span {
+  position: relative;
+  display: inline-block;
+  padding: 3px 10px;
+  background: #fff;
+}
+
+.fare-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.fare-block span,
+.fare-block small {
+  color: #667085;
+  font-size: 12px;
+}
+
+.fare-block strong {
+  color: #d84e55;
+  font-size: 26px;
+}
+
+.fare-block button {
+  width: 100%;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #d84e55;
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.fare-block button:hover:not(:disabled) {
+  background: #c43f47;
+}
+
+.fare-block button:disabled {
+  background: #c9ced8;
+  cursor: not-allowed;
+}
+
+.bus-meta {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+  padding: 16px 22px;
+  border-top: 1px solid #edf0f5;
+  background: #fbfcfe;
+}
+
+.seat-meter strong,
+.seat-meter span {
+  display: block;
+}
+
+.seat-meter strong {
+  color: #18202f;
+  font-size: 14px;
+}
+
+.seat-meter span {
+  margin-top: 3px;
+  color: #667085;
+  font-size: 12px;
+}
+
+.occupancy-bar {
+  height: 7px;
+  margin-top: 9px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #e4e8f0;
+}
+
+.occupancy-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #51b47c, #f2a33a, #d84e55);
+}
+
+.amenities {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.amenities span {
+  padding: 6px 9px;
+  border: 1px solid #dfe5ee;
+  border-radius: 6px;
+  background: #fff;
+  color: #394356;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.points-row {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: #667085;
+  font-size: 13px;
+}
+
+.points-row span {
+  padding-right: 12px;
+  border-right: 1px solid #dfe5ee;
+}
+
+.points-row span:last-child {
+  border-right: 0;
+}
+
+@media (max-width: 980px) {
+  .bus-main,
+  .bus-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .fare-block {
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  .bus-main {
+    padding: 16px;
+  }
+
+  .timeline-block {
+    grid-template-columns: 1fr;
+  }
+
+  .route-point.right {
+    text-align: left;
+  }
+
+  .duration-line {
+    text-align: left;
+  }
+
+  .duration-line::before {
+    display: none;
+  }
+
+  .duration-line span {
+    padding-left: 0;
+  }
+
+  .bus-meta {
+    padding: 16px;
+  }
+}

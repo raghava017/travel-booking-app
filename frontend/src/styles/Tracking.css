@@ -1,0 +1,5 @@
+.tracking-page { padding: 20px; }
+.tracking-controls { display:flex; gap:8px; align-items:center; margin-bottom:12px }
+.tracking-controls input { width:120px; padding:6px }
+.tracking-map { border:1px solid #e6e6e6; padding:8px; border-radius:6px }
+.tracking-empty { padding:40px; text-align:center; color:#666 }

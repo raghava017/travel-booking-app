@@ -1,0 +1,157 @@
+.admin-page {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 26px;
+  border-radius: 8px;
+  background: #18202f;
+  color: #fff;
+}
+
+.admin-header p,
+.admin-header h1 {
+  margin: 0;
+}
+
+.admin-header p {
+  color: #ffd7d9;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-header h1 {
+  margin: 7px 0;
+}
+
+.admin-header span {
+  color: #d9dee8;
+}
+
+.admin-header strong {
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: #e8f6ee;
+  color: #17643a;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.admin-stats div,
+.admin-section {
+  border: 1px solid #e5e9f2;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+}
+
+.admin-stats div {
+  padding: 18px;
+}
+
+.admin-stats span,
+.admin-stats strong,
+.admin-stats small {
+  display: block;
+}
+
+.admin-stats span {
+  margin-bottom: 8px;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-stats strong {
+  color: #18202f;
+  font-size: 26px;
+}
+
+.admin-stats small {
+  min-height: 32px;
+  margin-top: 8px;
+  color: #667085;
+  line-height: 1.35;
+}
+
+.admin-section {
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.admin-section-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.admin-section-title h2 {
+  margin: 0;
+  color: #18202f;
+  font-size: 20px;
+}
+
+.admin-section-title span {
+  color: #667085;
+  font-weight: 800;
+}
+
+.admin-table {
+  overflow-x: auto;
+}
+
+.admin-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr 0.7fr 0.7fr 0.8fr;
+  gap: 12px;
+  min-width: 760px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #edf0f5;
+  color: #394356;
+}
+
+.admin-row.bus {
+  grid-template-columns: 1.2fr 1.4fr 0.8fr 0.7fr 0.6fr;
+}
+
+.admin-row.users {
+  grid-template-columns: 1fr 1.3fr 0.6fr 0.9fr 0.9fr;
+}
+
+.admin-row.head {
+  background: #f6f7fb;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-row:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
